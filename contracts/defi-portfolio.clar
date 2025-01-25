@@ -32,7 +32,7 @@
 
 ;; Protocol Configuration
 (define-constant MAX-TOKENS-PER-PORTFOLIO u10)
-(define-constant BASIS-POINTS u10000)
+(define-constant BASIS-POINTS u10000) ;; Represents 100% in basis points (1 basis point = 0.01%)
 
 ;; Protocol State
 (define-data-var protocol-owner principal tx-sender)
@@ -127,7 +127,7 @@
 )
 
 (define-private (initialize-portfolio-asset (index uint) (token principal) (percentage uint) (portfolio-id uint))
-    (if (>= percentage u0)
+    (if (and (>= percentage u0) (<= percentage BASIS-POINTS))
         (begin
             (map-set PortfolioAssets
                 {portfolio-id: portfolio-id, token-id: index}
